@@ -34,7 +34,7 @@ def form():
             if descriptive_words != "":
                 prompt += f", I think he is {descriptive_words}"
 
-            prompt += f", Please keep the message concise, with a maximum of 200 words. my name is {sender}."
+            prompt += f", Please keep the message concise, between 140 and 200 words. my name is {sender}."
 
             return prompt,
         else:
