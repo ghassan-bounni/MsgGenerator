@@ -1,38 +1,41 @@
 import streamlit as st
-import constants as c
 
 
 def form():
     with st.form("my-form"):
-        occasion = st.selectbox("What is the occasion of the message?", c.occasion)
-        target = st.selectbox("Who is the recipient?", c.target)
-        relation = st.selectbox("Who is the sender?", c.relation)
-        tone = st.selectbox("What the tone of the message?", c.tone)
-        word_count = st.selectbox("Message Length", [70, 100, 170, 200])
+        sender = st.text_input("Who is it from? :red[*]", placeholder="your name, your nickname, etc.")
+        target = st.text_input("Who is it for? (add your relation to this person, use a nickname if you want) "
+                               ":red[*]",
+                               placeholder="lil' bits my best friend, my baby boo, my mom , my boyfriend Johnny, "
+                                           "etc.")
+        occasion = st.text_input("What is the occasion? :red[*]",
+                                 placeholder="birthday, anniversary, Father's Day, etc.")
+        tone = st.text_input("What is the tone of the letter? :red[*]", placeholder="funny, serious, etc.")
         # optional selection
-        nickname = st.text_input("Do you want to include nickname in the message? If yes, what is it?")
-        father_to = st.text_input("He is a father to?")
-        profession = st.text_input("What is his profession?")
-        hobbies = st.text_input("What are some of his hobbies?")
+        memory = st.text_input("What is your favorite memory with this person? (optional, "
+                               "don't start with my favorite memory is)",
+                               placeholder="skydiving, summer camp, fishing trip, etc.")
+
+        descriptive_words = st.text_input("What words best describe the recipient of this letter?  "
+                                          "(optional, comma separated)",
+                                          placeholder="kind, funny, smart, etc.")
 
         if st.form_submit_button("Generate"):
-            prompt = f"write a {tone} message for {occasion} to my {target}, " \
-                     f"I'm his {relation}"
 
-            if nickname:
-                prompt += f", his nickname is {nickname}"
+            if sender == "" or target == "" or occasion == "" or tone == "":
+                st.error("Please fill in all required fields")
+                return None
 
-            if father_to:
-                prompt += f", a father to {father_to}"
+            prompt = f"write a {tone} message for {occasion} to {target}, " \
 
-            if profession:
-                prompt += f", he is a {profession}"
+            if memory != "":
+                prompt += f", my favorite memory of this person is {memory}"
 
-            if hobbies:
-                prompt += f", and he likes {hobbies}"
+            if descriptive_words != "":
+                prompt += f", I think he is {descriptive_words}"
 
-            prompt += f", Please keep the message concise, with a maximum of {word_count} words."
+            prompt += f", Please keep the message concise, with a maximum of 200 words. my name is {sender}."
 
-            return prompt, word_count
+            return prompt,
         else:
-            return None, None
+            return None

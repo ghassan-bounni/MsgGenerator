@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def generate_letter(prompt, word_count):
+def generate_letter(prompt):
 
     headers = {
         'Authorization': f'Bearer {os.environ["OPENAI_API_KEY"]}',
@@ -15,7 +15,7 @@ def generate_letter(prompt, word_count):
     payload = {
         'model': 'text-davinci-003',
         'prompt': prompt,
-        'max_tokens': word_count + 30,
+        'max_tokens': 230,
     }
 
     response = requests.post(
